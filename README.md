@@ -1,7 +1,7 @@
 # LiteAudit
 
 [![PHP 8.2+](https://img.shields.io/badge/php-8.2%2B-blue.svg)](https://www.php.net/)
-[![License: Apache-2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Tests](https://img.shields.io/badge/tests-passing-brightgreen.svg)]()
 
 High-performance, zero-dependency enterprise audit trail and entity change tracking engine for PHP 8.2+. Generates compact Git-like JSON diffs, respects declarative PHP 8.2 attributes (`#[Auditable]`, `#[AuditIgnore]`), and seamlessly bridges into `LiteORM` and PSR-7/15 microservices.
@@ -154,4 +154,4 @@ Runs the test suite using PHPUnit 11 with 100% pass rate.
 
 ## License
 
-Apache-2.0.
+MIT License. See [LICENSE](LICENSE) for details.
