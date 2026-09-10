@@ -113,6 +113,53 @@ class AuditManager
         return $this->storage->findByEntity($entityClass, $entityId, $limit, $offset);
     }
 
+    /**
+     * Revert an entity's properties to the state captured in a specific audit revision.
+     *
+     * @template T of object
+     * @param T $entity The entity object to revert
+     * @param string|int $revisionId The UUID or identifier of the audit record to revert to
+     * @param bool $toOldValues If true, restores old_values (state before the mutation); if false, restores new_values (state after mutation). Default: true.
+     * @return T The modified entity
+     * @throws \InvalidArgumentException If revision not found or class mismatch
+     */
+    public function revertTo(object $entity, string|int $revisionId, bool $toOldValues = true): object
+    {
+        $record = $this->storage->find((string)$revisionId);
+        if ($record === null) {
+            throw new \InvalidArgumentException("Audit revision '{$revisionId}' not found.");
+        }
+
+        $entityClass = get_class($entity);
+        if ($record->entityClass !== $entityClass) {
+            throw new \InvalidArgumentException(
+                "Audit revision entity class mismatch. Expected '{$entityClass}', got '{$record->entityClass}'."
+            );
+        }
+
+        $values = $toOldValues ? $record->oldValues : $record->newValues;
+        if ($values === null) {
+            $values = [];
+            foreach ($record->diff as $field => $change) {
+                $values[$field] = $toOldValues ? $change['old'] : $change['new'];
+            }
+        }
+
+        $ref = new ReflectionClass($entity);
+        foreach ($values as $property => $value) {
+            if ($ref->hasProperty($property)) {
+                $prop = $ref->getProperty($property);
+                if (!$prop->isReadOnly()) {
+                    $prop->setValue($entity, $value);
+                }
+            } elseif (property_exists($entity, $property)) {
+                $entity->{$property} = $value;
+            }
+        }
+
+        return $entity;
+    }
+
     public function getStorage(): AuditStorageInterface
     {
         return $this->storage;
