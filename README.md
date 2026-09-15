@@ -1,5 +1,9 @@
 # LiteAudit
 
+[![Latest Version](https://img.shields.io/github/v/release/kzxl/LiteAudit?label=version&color=blue)](https://github.com/kzxl/LiteAudit/releases)
+[![PHP Version](https://img.shields.io/badge/php-%3E%3D8.2-8892BF.svg)](https://php.net)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+
 [![PHP 8.2+](https://img.shields.io/badge/php-8.2%2B-blue.svg)](https://www.php.net/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Tests](https://img.shields.io/badge/tests-passing-brightgreen.svg)]()
@@ -26,10 +30,52 @@ High-performance, zero-dependency enterprise audit trail and entity change track
 
 ---
 
-## Installation
+## 📦 Installation
 
+### Option 1: Standard Composer (via Packagist)
 ```bash
 composer require kzxl/lite-audit
+```
+
+### Option 2: Direct from Git Repository (VCS)
+To pull directly from the official GitHub repository without waiting for Packagist synchronization, add the VCS repository to your project's `composer.json`:
+
+```json
+{
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/kzxl/LiteAudit.git"
+        }
+    ],
+    "require": {
+        "kzxl/lite-audit": "^1.1.0"
+    }
+}
+```
+Or configure via CLI:
+```bash
+composer config repositories.lite-audit vcs https://github.com/kzxl/LiteAudit.git
+composer require kzxl/lite-audit:^1.1.0
+```
+
+### Option 3: Local Path Repository (Monorepo / Development)
+For local development where changes should reflect immediately via symlink:
+```json
+{
+    "repositories": [
+        {
+            "type": "path",
+            "url": "../libs/LiteAudit",
+            "options": {
+                "symlink": true
+            }
+        }
+    ],
+    "require": {
+        "kzxl/lite-audit": "@dev"
+    }
+}
 ```
 
 ---
